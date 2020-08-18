@@ -1,0 +1,24 @@
+.imageDisplay {
+    width: 500px;
+    height: 672px;
+    padding-bottom: 1em;
+    opacity: 0.8;
+}
+
+.text {
+    
+  }
+
+  .textDiv {
+      width: 450px;
+      text-align: center;
+    background-color: whitesmoke;
+    /* border: 2px solid red; */
+    z-index: 100;
+    position: absolute;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    left: 50px;
+    top: 550px;
+  }
