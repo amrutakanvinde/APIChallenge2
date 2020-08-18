@@ -10,6 +10,9 @@ let url;
 
 // previousBtn.addEventListener('click',previousPage);
 
+//comments to make thois 
+//work
+
 function getData(id) {
     
     fetch(proxyURL + baseURL + id)
