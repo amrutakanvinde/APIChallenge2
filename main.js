@@ -8,7 +8,7 @@ const previousBtn = document.querySelector('.prev');
 // let id = 5;
 let url; 
 
-previousBtn.addEventListener('click',previousPage);
+// previousBtn.addEventListener('click',previousPage);
 
 function getData(id) {
     
