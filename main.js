@@ -3,7 +3,8 @@ const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 let body = document.querySelector('body');
 let divContainer = document.querySelector('.container-fluid');
 const previousBtn = document.querySelector('.prev');
-
+let fromId = 1;
+let toId = 10;
 // console.log(divContainer);
 // let id = 5;
 let url; 
@@ -34,8 +35,8 @@ function getData(id) {
     
 }    
 
-for(let i = 0 ; i < 9; i++){
-    let randomid = Math.floor(Math.random() * 731) + 1 ; 
+for(let i = fromId ; i < toId; i++){
+    let randomid = i;//Math.floor(Math.random() * 731) + 1 ; 
     getData(randomid);          
 }
 
