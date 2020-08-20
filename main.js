@@ -2,19 +2,14 @@ const baseURL = 'https://superheroapi.com/api/3723965117617151/';
 const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 let body = document.querySelector('body');
 let divContainer = document.querySelector('.container-fluid');
-// const previousBtn = document.querySelector('#prev');
-// const lnkPrev = document.getElementById('lnkPrev');
 const lnkPrev = document.createElement('li');
 const previousBtn = document.createElement('a');
 const lnkNext = document.createElement('li');
 const nextBtn = document.createElement('a');
-// const nextBtn = document.getElementById('next');
 const pagelnks = document.querySelectorAll('.page-number');
 const ulTag = document.querySelector('ul');
-
-
-console.log(pagelnks);
-
+let divModal = document.querySelector(".modal-body");
+let divModalTitle = document.getElementById("lblSuperheroName");
 
 let colNumber = 0;
 let rowNumber = 0;
@@ -25,12 +20,6 @@ let fromId = 1;
 let toId = fromId + pageSize;
 
 const pageCount = heroCount/pageSize;
-
-
-
-// pagelnks.forEach((pagelnk) => {
-//     // pagelnk.addEventListener('click', pageEvent);
-// })
 
 loop(fromId, toId);
 
@@ -77,7 +66,7 @@ function getData(id) {
     })
     .then(function(json){
         // console.log("NOW HERE");
-        console.log(json);
+        // console.log(json);
         displayData(json);
     })
     .catch(function(err){
@@ -140,15 +129,26 @@ function displayData(json) {
     let lnkTag = document.createElement('a');
     let newCol = document.createElement('div');
 
-    // console.log(json.image);
+    console.log(json);
     image.src = json.image.url;
     image.alt = json.name;
     lnkTag.innerHTML = json.name;
-    lnkTag.href = json.image.url;
+    lnkTag.id = json.id;
+    lnkTag.setAttribute('data-toggle', 'modal');
+    lnkTag.setAttribute('data-target', '#exampleModal');
+    lnkTag.setAttribute('class', 'lnkColor');
+    divModalTitle.innerHTML = json.name;
+    console.log(json.appearance);
+    divModal.innerHTML = 'Aliases:'+json.biography.aliases[0]+'<br/>Gender: ' + json.appearance.gender  + "<br/> Race: " + json.appearance.race + "<br/> Alignment: " + json.biography.alignment + "<br/> First Appearance: " + json.biography['first-appearance'] + "<br/> Work: " + json.work.occupation;
+    
+    divModal.innerHTML += `<br/><br/><table class='table'><thead class='thead-dark'><tr><th>Combat</th><th>Durability</th><th>Intelligence</th><th>Power</th><th>Speed</th><th>Strength</th></tr></thead><tbody><tr><td>${json.powerstats.combat}</td><td>${json.powerstats.durability}</td><td>${json.powerstats.intelligence}</td><td>${json.powerstats.power}</td><td>${json.powerstats.speed}</td><td>${json.powerstats.strength}</td></tr></tbody></table>`
+
+    // lnkTag.href = json.image.url;
+    lnkTag.addEventListener('click', getSuperheroDetails);
 
     image.setAttribute('class', 'imageDisplay');
     newCol.setAttribute('class', 'col-sm-4');
-    lnkTag.setAttribute('class', 'text');
+    // lnkTag.setAttribute('class', 'text');
     textDiv.setAttribute('class', 'textDiv');
 
     newCol.appendChild(image);
@@ -177,4 +177,12 @@ function displayData(json) {
     colNumber++;
     // rowNumber++;
 
+}
+
+function getSuperheroDetails(e){
+    console.log("clicked",this.id, e);
+
+    getData(this.id);
+
+    // divModalTitle.innerHTML = json[i].name;
 }
