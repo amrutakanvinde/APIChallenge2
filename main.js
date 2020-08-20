@@ -70,7 +70,7 @@ function getData(id) {
         displayData(json);
     })
     .catch(function(err){
-        console.log(err);
+        console.log(err);   
     })
 
     
@@ -129,7 +129,7 @@ function displayData(json) {
     let lnkTag = document.createElement('a');
     let newCol = document.createElement('div');
 
-    console.log(json);
+    console.log(json.image.url);
     image.src = json.image.url;
     image.alt = json.name;
     lnkTag.innerHTML = json.name;
@@ -180,9 +180,8 @@ function displayData(json) {
 }
 
 function getSuperheroDetails(e){
-    console.log("clicked",this.id, e);
-
+    // console.log("clicked",this.id, e);
+    divModal.innerHTML = "";
+    divModalTitle.innerHTML = "";
     getData(this.id);
-
-    // divModalTitle.innerHTML = json[i].name;
 }
