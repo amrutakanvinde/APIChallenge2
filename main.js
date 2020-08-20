@@ -2,17 +2,69 @@ const baseURL = 'https://superheroapi.com/api/3723965117617151/';
 const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 let body = document.querySelector('body');
 let divContainer = document.querySelector('.container-fluid');
-const previousBtn = document.querySelector('.prev');
+// const previousBtn = document.querySelector('#prev');
+// const lnkPrev = document.getElementById('lnkPrev');
+const lnkPrev = document.createElement('li');
+const previousBtn = document.createElement('a');
+const lnkNext = document.createElement('li');
+const nextBtn = document.createElement('a');
+// const nextBtn = document.getElementById('next');
+const pagelnks = document.querySelectorAll('.page-number');
+const ulTag = document.querySelector('ul');
+
+
+console.log(pagelnks);
+
+
+let colNumber = 0;
+let rowNumber = 0;
+let pageNumber = 1;
+let pageSize = 21;
+let heroCount = 731;
 let fromId = 1;
-let toId = 10;
-// console.log(divContainer);
-// let id = 5;
-let url; 
+let toId = fromId + pageSize;
 
-// previousBtn.addEventListener('click',previousPage);
+const pageCount = heroCount/pageSize;
 
-//comments to make thois 
-//work
+
+
+// pagelnks.forEach((pagelnk) => {
+//     // pagelnk.addEventListener('click', pageEvent);
+// })
+
+loop(fromId, toId);
+
+//previous button addition 
+lnkPrev.setAttribute('class', 'page-item');
+lnkPrev.classList.add('disabled');
+previousBtn.setAttribute('class', 'page-link');
+previousBtn.setAttribute('tabindex', '-1');
+previousBtn.addEventListener('click',previousPage);
+previousBtn.innerHTML = "Previous";
+lnkPrev.appendChild(previousBtn);
+ulTag.appendChild(lnkPrev);
+
+for(let i = 0; i < pageCount; i++){
+        let liTag = document.createElement('li');
+        let aTag = document.createElement('a');
+    
+        liTag.setAttribute('class', 'page-item');
+        aTag.setAttribute('class', 'page-link');
+        aTag.classList.add('page-number');
+        aTag.innerHTML = i + 1;
+        aTag.addEventListener('click', pageEvent);
+        
+        liTag.appendChild(aTag);
+        ulTag.appendChild(liTag);
+}    
+
+//next button addition here
+lnkNext.setAttribute('class', 'page-item');
+nextBtn.setAttribute('class', 'page-link');
+nextBtn.addEventListener('click', nextPage);
+nextBtn.innerHTML = "Next";
+lnkNext.appendChild(nextBtn);
+ulTag.appendChild(lnkNext);
 
 function getData(id) {
     
@@ -25,7 +77,7 @@ function getData(id) {
     })
     .then(function(json){
         // console.log("NOW HERE");
-        // console.log(json);
+        console.log(json);
         displayData(json);
     })
     .catch(function(err){
@@ -35,13 +87,51 @@ function getData(id) {
     
 }    
 
-for(let i = fromId ; i < toId; i++){
-    let randomid = i;//Math.floor(Math.random() * 731) + 1 ; 
-    getData(randomid);          
+
+
+function pageEvent(e){
+    console.log(e);
+    pageNumber = e.srcElement.innerHTML;
+    pageLogic();
+
 }
 
-let colNumber = 0;
-let rowNumber = 0;
+function pageLogic(){
+    fromId = ((pageNumber - 1) * pageSize) + 1;
+    toId = fromId + pageSize;
+    
+    divContainer.innerHTML = "";
+    colNumber = 0;
+    rowNumber = 0;
+
+    if(pageNumber === 1){
+        lnkPrev.classList.add('disabled');
+    }
+    else {
+        lnkPrev.classList.remove('disabled');
+    }
+
+    loop(fromId,toId);
+}
+
+function previousPage(e) {
+    pageNumber--;
+    pageLogic();
+}
+
+function nextPage(e) {
+    pageNumber++;
+    pageLogic();
+}
+
+function loop(fromId, toId){
+    for(let i = fromId ; i < toId; i++){
+        let randomid = i;//Math.floor(Math.random() * 731) + 1 ; 
+        getData(randomid);          
+    }
+
+}
+
 
 function displayData(json) {
     // console.log(json.image.url);
